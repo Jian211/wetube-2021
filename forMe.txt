@@ -16,3 +16,41 @@
 
     - dependencies  프로그램을 위한 것
     - devDependencies 개발자를 위한 것
+
+
+6/30
+
+    1. 서버만들기
+        a. express를 import한다. 
+            - import express from "express"
+        b. 서버는 항상 유저를 기다린다. > listening...
+           일종의 룰 같은 것 이다.
+            const app = express();  // 함수실행
+        c. app.listen(4000, handleListening);  // 들을 준비하겠다는 함수. 
+            위 괄호 안에는 포트번호와, 함수를 넣어줘야한다. 
+
+        * ctrl + c 는 서버 종료.
+    
+    2. request 
+        - 브라우저에서 > 서버로 request(요청)한다.
+          서버는 그 요청을 responses 해주기 위해서,
+          app.get() 함수를 실행한다. 
+          
+          함수는 2개의 인자를 받으며, 첫번째는 Route
+          *Route란 쉽게 말해 주소를 뜻 한다. 
+            ex)  /login
+                 /naver.com 등..
+
+    3. response
+        - app.get("/", 함수)에서 함수는 request와 response의 인자를 받는다.
+        그 인자는 express에서 처리를 해준다. 
+        
+        - response.end(); 라는 함수는 서버를 종료 해준다. 
+        - app.get()이라는 함수는 수업을 들어보니 유저가 가고싶은
+          경로를 안내해주는 기능인듯하다. 첫번째 인자로는
+          보여주고 싶은 홈페이지의 URL을 넣는 것.
+
+          두번째로는 그 유저가 URL에 접근 했을 때 해야하는
+          서버의 행동들을 함수에 담는 듯 하다.
+
+    
