@@ -61,6 +61,7 @@
             해주면 된다.
         - 인자로 next가 있으면 미들웨어이다.
 
+7/1
     5. morgan!
         - morgan은 Middleware로써 npm에서 사용이 가능하다.
         - 사용 방법은 npm i morgan으로 콘솔에서 다운을 받고
@@ -69,3 +70,62 @@
           return으로 "???"으로 설정한 값이 반환된다.
         - 총 5가지가 있으며 정확하게 다 다룰준 모른다. 
         - 다만 req, res, next가 포함되어 있는 것은 확실하다. 
+
+7/2
+    6. Router
+        - Router는 controllerとURL管理しやすくなる
+        - 프로젝트에서 가장 중요하게 생각해야 될 것은
+            "데이터"이다.
+
+    7. 라우터 분할
+        - 라우터를 이용하여 URL을 그룹화 하여 관리한다.
+        - 만약 video에 관련된 것들만 관리한다면 큰그룹으로 라우트를 설정하여
+          관리하는 편이 더 쉽다.
+        - 라우터를 쓰는 방법은 
+            const video = express.router(); // 이렇게 선언해준다.
+        
+    8. 라우터 import 방법.
+        라우터와 서버를 연결하기 위해,
+            라우터에서는 자신의 모듈을 써도 된다는 정의를 해줘야한다.
+            라우터 js에서 맨 아래에 export defalut 이름; 을 적는다.
+            
+            서버에서 라우터의 정보를 import하기위해서는 
+            import 이름 from "라우트의 경로";   를 해주면 서로 연결이 된다.
+
+    9. controller.
+        컨트롤러를 나누는 것은 작업의 효율성인 것 같다. 수많은 라우터와 컨트롤러가
+        라우터 안에 있으면 프로그램의 규모가 커지면 커질수록 관리하는 부분에서 힘들
+        것이라고 판단된다. 
+
+        하나의 라우터 안에 수많은 컨트롤러가 존재함으로 
+        라우터에서 쓰던 방식의 export defalut 이름; 의 방식은 
+        단 하나만 쓰는 것으므로 컨트롤러가 생길때마다 import하고 선언하는
+        방식은 너무 힘들다. 
+
+        그러므로 변수 앞에 export를 붙여준다. 
+        // export const watch = (req, res) => res.send("It's so fun!");
+
+
+    10. server / router / controller 
+        서버에선 
+            a. 서버를 생성.  > express를 사용 후 변수안에 express()함수
+            b. Port 번호.   > 임의로 하나 정해서 선언 ex 4000
+            c. app.listen(port, method)로 항상 요청받을 준비를함; 
+            d. Middleware   > app.use()를 통해 라우트를 관리한다. 
+                * morgan을 사용하면 morgan의 기능에따라 메소드 형태, 속도 등
+                    여러가지를 볼 수 있다. 
+    
+        라우터에서 
+            a. 미들웨어에 라우트 정보를 넘겨준다. 
+                import userRouter from (경로);
+                
+                //router에서
+                    export default userRouter;
+            b. 라우터에서는 컨트롤러를 관리한다. 
+                // router에서 
+                    import { edit } from "경로";
+                // controller에서         
+                   export const edit = (req, res) => res.send("sO~~");
+
+        컨트롤러에서
+            a. 라우트의 기능을 관리한다. 
