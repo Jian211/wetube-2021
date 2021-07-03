@@ -8,10 +8,12 @@ wetube Clone built using NodeJS, Express, Mongo and ES6.
 /login          >  Login
 /search         >  search
 
-/user/edit      >  Edit user
-/user/delete    >  Delete user
+/user/:id       >  See User
+/user/logout    >  Log Out
+/user/edit      >  Edit My Profile
+/user/delete    >  Delete My Profile
 
-/video/watch    >  Watch Video
-/video/delete   >  Delete Video
-/video/edit     >  Edit Video  
-/video/comments >  Comment on a video 
+/video/:id          >  See Video
+/video/:id/edit     >  Edit Video  
+/video/:id/delete   >  Delete Video
+/video/upload   > Upload Video
