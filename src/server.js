@@ -9,6 +9,8 @@ const app = express();
 
 const PORT = 4000;
 
+app.set("view engine","pug");
+
 //middleWare
 app.use(morgan("dev"));
 app.use("/", globalRouter);
