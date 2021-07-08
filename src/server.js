@@ -8,9 +8,10 @@ import videoRouter from "./routers/videoRouter";
 const app = express();
 
 const PORT = 4000;
-
-app.set("view engine","pug");
-
+// 퍼그를 사용 하겠다는 코드.
+app.set("view engine", "pug");
+// 경로를 잡아주는 코드.
+app.set("views", process.cwd() + "/src/views");
 //middleWare
 app.use(morgan("dev"));
 app.use("/", globalRouter);
