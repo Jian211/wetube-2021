@@ -165,3 +165,66 @@
         > "extends 경로위치"를 이용하여 기본적인 틀을 복붙없이 저 코드하나로 사용가능함
         > 상속과 확장으로 html을 유연하게 만들 수 있다 .
             상속은 extends 확장은 include를 적고 뒤에 경로를 붙힌다. 
+
+7/12 
+ if fakeUser.loggedInfo
+                small Hello #{fakeUser.userName} 
+            nav   
+                ul
+                    if fakeUser.loggedInfo 
+                        li 
+                            a(href="/login") log out 
+                    else 
+                        li
+                            a(href="/logout") log in  
+            h1=pageTitle 
+
+7/13    about iteration and mixin
+
+    iteration of pug   (iteration : 반복자)
+
+    1. controller에서 array를 만들어 서버측으로 전달(render)한다.
+
+    2. each라는 함수(?)로 실행한다.
+        ex) ui 
+                each var in arrayName
+                    li
+                else 
+                    만약 데이터가 없을 때 사용 
+
+    Why we use mixin.
+        > 유튜브의 경우 같은 동영상의 소스를 많은 곳에 
+          재활용하고 있다.
+
+          그렇기에 항상 복붙을 하는 것 보다 그 객체를
+          함수형식으로 만들어 사용하는 것이 베스트이다.
+
+    Step 1.
+        > 동영상의 정보를 담은 array객체를 전달하고자하는
+          page로 rendering한다. 
+
+        res.render( "home", { 이곳에다 객체를 담아전달.})
+    
+    Step 2.
+        > view 폴더안에 mixins 폴더를 만든다.
+        > mixins폴더안에 ~~~.pug의 페이지를 만든다
+        > 페이지 안에서 
+            mixin 이름(매개변수)
+                이곳에 반복할 html 태그 등을 적는다.
+                h1 매개변수.속성
+                h1 매개변수.속성
+                h1 매개변수.속성
+
+    Step 3.
+        > mixin을 사용하려 하는 페이지 안에다가 include 경로.
+
+        > iteration으로 array객체를 반복하여 만든다.
+            each var in array Name 
+                li 
+                    +mixin Name(controller에서 온 변수 값을 전달)
+
+    ternary operator! 삼차연산자로
+        java 람다식이였나 그것과 모양와 속성이 같다. 
+        { a === 1 ? "true": "false"}
+
+    
