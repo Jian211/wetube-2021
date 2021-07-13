@@ -1,4 +1,11 @@
-extends base.pug
+extends base
+include mixins/video
 
 block contents 
-    h1 Hello~~~~~~~~~~~
+    header 
+    each video in videos 
+        +video(video)
+
+    h1 Hello
+    input(type="text" placeholder="Whats your name")
+    button send 
