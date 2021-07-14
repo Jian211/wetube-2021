@@ -227,4 +227,29 @@
         java 람다식이였나 그것과 모양와 속성이 같다. 
         { a === 1 ? "true": "false"}
 
-    
+7/14    
+    데이터를 수정하는 과정.
+
+        데이터 수정한다.
+            method="POST"
+                input에 name을 필수로 적어야한다.
+                그래야만 express에서 읽어서 js 오브젝트로 변환해준다.
+
+                하지만 사전에 설정해두어야하는게 express에서 
+                app.use(express.urlencode({ extended : true}))를
+                server에서 설정해 두어야 form의 값을 오브젝트로 변환이 가능하다.
+
+        데이터를 저장한다.
+            컨트롤러에서의 post method 에서
+            
+            데이터 수정과정에서의 일을 처리하게되면
+            req.body로 form안의 name을 설정한 input의 값을 얻어올 수 있따.
+
+            그 값을 데이터베이스로 전해주어 셋팅을 하는 과정을 하면됀다.
+            
+            save가 일어났을 때의 함수
+                return res.redirect(주소)를 해준다. 
+
+        저장한 데이터를 보여준다.
+            데이터베이스에서 보내주는 과정을 아직 배우지않음.
+
