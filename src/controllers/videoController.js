@@ -1,4 +1,4 @@
-const videos = [
+let videos = [
     {
         title    : "first",
         rating   :5,
@@ -32,13 +32,35 @@ export const watch  = (req, res) => {
     const { id } = req.params;  // ES6 방식 
     const video  = videos[id-1];
     return res.render("Watch" , { 
-        pageTitle : `watching ${video.title}`,
+        pageTitle : `Watching: ${video.title}`,
         video,
     })
 };
-export const upload = (req, res) => res.send("Upload Video");
-export const edit  = (req, res) => res.render("edit");
-export const search = (req, res) => {
-    return  res.send(`Search Video`);
+export const getEdit  = (req, res) => {
+    const { id } = req.params;
+    const video = videos[id - 1];
+
+    return res.render("edit",{
+        pageTitle : `Editing: ${video.title}`, 
+        video,
+    });
+};
+
+export const postEdit = (req, res) => {
+    const { id } = req.params;
+    const { title }= req.body;
+    videos[id-1].title = title;
+    return res.redirect(`/video/${id}`);
+};
+
+export const getUpload = (req, res) => {
+
+    return res.render("upload", { pageTitle : "upload video"});
 }
+export const postUpload = ( req, res ) => {
+    const { videoTitle } = req.body;
+    videos.push({title : videoTitle, id: videos.length+1})
+    return res.redirect("/");
+}
+export const search = (req, res) => {    return  res.send(`Search Video`);}
 export const deleteVideo = (req, res) => res.send("Delete Video");
