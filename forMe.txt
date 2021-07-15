@@ -253,3 +253,42 @@
         저장한 데이터를 보여준다.
             데이터베이스에서 보내주는 과정을 아직 배우지않음.
 
+7/15
+    Mongo DATA BASE 
+        몽고DB는 다른 DB와 달리 문서형태로 저장이 된다. 
+        JSON을 지원한다.
+        개발자가 코드를 짜는 방식으로 사용이 가능하여 초보자가 하기쉽다. 
+
+    mongoos는 MongoDB와 Node.js를 연결해주는 오작교라고 보면된다.
+    왜냐하면 우리는 JS를 쓰고싶기 때문이다. (번역해주는 역활 이라고 보면된다.)
+
+    > npm i mongoose로 터미널에서 다운로드 가능하다. <
+
+    wsl터미널에서 mongoDB사용법
+    
+    sudo service mongodb status 가 현재 상태 확인하는 것
+    sudo service mongodb stop   이 몽고디비 연결 종료
+    sudo service mongodb start  가 몽고디비 연결
+
+    1. mongoose connect in db.js file, how?
+        a.자바스크립트로 만드는 DB파일을 어떻게 알 수 있을까 
+            db.js로 DB전용 파일을 만들었다면, 몽구스는 몽고디비를
+            자바스크립트로 작성을 도와주는 프로그램이므로,
+            db.js파일이 몽구스로 활용 될 수 있게 import해준다.
+            
+            사용법은 express랑 같다. 
+            > import mongoose from "mongoose";
+
+        b. 그 다음 몽구DB와 몽구스를 연결 시켜줘야한다. 
+            > mongoose.connet("mongodb주소+파일이름", { + 옵션})
+            옵션을 넣는 이유는 연결시에 두가지의 경고가 영상에선 보여졌지만
+            나에겐 나오지 않았다. 혹시라도 경고가 뜨면 아래와 같이해주자.
+            { useNewUrlParser : true,
+              useUnifiedTopology : true,
+            }
+
+    2. how to connect mongoose to server 
+        server에서 DB를 연결시켜야하니 db.js를 import해준다.
+    
+        import "./db"  로 경로만 입력해주면 된다. 
+        
