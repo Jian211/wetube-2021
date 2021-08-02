@@ -1,66 +1,81 @@
-let videos = [
-    {
-        title    : "first",
-        rating   :5,
-        comments : 5,
-        createdAt: "2 minutes ago",
-        views    : 20,
-        id       : 1,            
-    },
-    {
-        title    : "second",
-        rating   : 25,
-        comments : 35,
-        createdAt: "1 minutes ago",
-        views    : 120,
-        id       : 2,            
-    },
-    {
-        title    : "third",
-        rating   : 10,
-        comments : 15,
-        createdAt: "5 minutes ago",
-        views    : 560,
-        id       : 3,            
-    },
-];
+import Video from "../models/Video";
 
-export const trending = (req, res) =>{
-    return res.render("home",{ pageTitle: "Home", videos});
+export const home = async(req, res) =>{
+    const videos = await Video.find({});
+    return res.render("home",{ 
+        pageTitle: "Home",
+        videos,
+    });
 } 
-export const watch  = (req, res) => {  
+export const watch  = async (req, res) => {  
     const { id } = req.params;  // ES6 방식 
-    const video  = videos[id-1];
+    const video = await Video.findById(id);
     return res.render("Watch" , { 
-        pageTitle : `Watching: ${video.title}`,
-        video,
+        pageTitle : `Watching`,
+        video
     })
 };
-export const getEdit  = (req, res) => {
+export const getEdit  = async (req, res) => {
     const { id } = req.params;
-    const video = videos[id - 1];
-
+    const video = await Video.findById(id);
+    if(!video){
+        return  res.render("404",{pageTitle : "404 Error"})
+    }
     return res.render("edit",{
-        pageTitle : `Editing: ${video.title}`, 
+        pageTitle : video.title,
         video,
     });
 };
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
     const { id } = req.params;
-    const { title }= req.body;
-    videos[id-1].title = title;
+    const { title,description,hashtags }= req.body;
+
+    await Video.findByIdAndUpdate(id,{
+        title,
+        description,
+        hashtags : Video.formatHashTags(hashtags)
+    })
     return res.redirect(`/video/${id}`);
 };
 
 export const getUpload = (req, res) => {
-
     return res.render("upload", { pageTitle : "upload video"});
 }
-export const postUpload = ( req, res ) => {
-    const { videoTitle } = req.body;
-    videos.push({title : videoTitle, id: videos.length+1})
-    return res.redirect("/");
+export const postUpload = async( req, res ) => {
+    const { title, description, hashtags } = req.body;
+    try {
+        await Video.create({
+            title,
+            description,
+            hashtags : Video.formatHashTags(hashtags),
+        })
+        return res.redirect("/");
+    } catch (error){
+        return res.render("upload", { 
+            pageTitle : "upload video",
+            errorMessage : error._message,
+        });
+    }
 }
-export const search = (req, res) => {    return  res.send(`Search Video`);}
-export const deleteVideo = (req, res) => res.send("Delete Video");
+export const deleteVideo = async(req, res) => {
+    const { id } = req.params;
+    await Video.findByIdAndDelete(id);
+    res.redirect("/");
+}
+
+export const search = async(req, res) => {    
+    const { keyword } = req.query;
+    let videos = [];
+    if(keyword){
+        videos = await Video.find({
+            title : {
+                $regex: new RegExp(keyword,"i")
+            }
+        })
+    }    
+    return  res.render("search",{
+        pageTitle: "Search",
+        videos,
+    });
+}

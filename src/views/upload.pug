@@ -2,6 +2,10 @@ extends base
 
 block contents
     header
+        if errorMessage
+            span=errorMessage
         form(method="POST") 
-            input(required, placeholder="please write video name" type="text" name="videoTitle")
+            input(required, placeholder="please write video name" type="text" name="title")
+            input(required, placeholder="description" type="text" name="description")
+            input(required, placeholder="hashtags," type="text" name="hashtags")
             input(type="submit", value="Upload video")

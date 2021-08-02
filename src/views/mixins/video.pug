@@ -2,8 +2,11 @@ mixin video(value)
     div
         h3
             a(href=`/video/${value.id}`)=value.title
+        
+        p=value.description
         ul 
-            li #{value.rating}/5. 
-            li #{value.comments} comments.
-            li posted #{value.createAt}.
-            li #{value.views} views.
+            each list in value.hashtags
+                li=list
+        small=value.createdAt
+        hr
+
