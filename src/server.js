@@ -1,10 +1,13 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
+
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import { localsMiddleware }from "./middleware";
+
 //creat application
 const app = express();
 
@@ -16,9 +19,10 @@ app.set("views", process.cwd() + "/src/views");
 app.use(morgan("dev"));
 app.use(express.urlencoded({extended:true}));
 app.use(session({
-    secret: "hello",
-    resave: true,
-    saveUninitialized:true,
+    secret: process.env.COOKIE_SECERT,
+    resave: false,
+    saveUninitialized:false, // 세션에 변화가 있을 때만 저장 하고싶으면 false로 만든다. 
+    store : MongoStore.create({mongoUrl : process.env.DB_URL})
 }))
 app.use(localsMiddleware);
 

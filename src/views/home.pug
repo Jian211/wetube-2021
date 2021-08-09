@@ -1,10 +1,12 @@
 extends base
 include mixins/video
 
-block contents 
-    each video in videos 
-        +video(video)
-
+block contents
+    if videos
+        each video in videos 
+            +video(video)
+    else
+        h1 Sorry, videos are not exists
     h1 Hello
     input(type="text" placeholder="Whats your name")
     button send 

@@ -14,7 +14,9 @@ const userSchema = new mongoose.Schema({
     },
     password : {
         type : String, 
-        require : true,
+    },
+    snsOnly : { 
+        type : Boolean,
     },
     name : {
         type : String, 
