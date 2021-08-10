@@ -1,0 +1,10 @@
+extends base
+
+block contents
+    form(method="post") 
+        input(name="username",type="text",required, placeholder="user name",value=loggedInUser.username)
+        input(name="email",type="email",required, placeholder="E-mail",value=loggedInUser.email)
+        input(type="submit", value="Edit Profile")
+        br
+        if !loggedInUser.snsOnly
+            a(href="/user/change-password") Change Password &rarr; 

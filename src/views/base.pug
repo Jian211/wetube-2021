@@ -9,7 +9,7 @@ html(lang="ko")
             nav 
                 ul 
                     li 
-                        a(href="http:/") Home 
+                        a(href="/") Home 
                     if  !loggedIn
                         li 
                             a(href="/join") Join
@@ -17,13 +17,13 @@ html(lang="ko")
                             a(href="/login") Login
                     else 
                         li 
-                            a(href="/logout") Log Out
+                            a(href="/user/logout") Log Out
                         li
-                            a(href="/user-profile") #{loggedInUser.name}
+                            a(href="/user/edit-profile") Edit Profile
+                        li 
+                            a(href="/video/upload") Upload Video
                     li 
                         a(href="/search") Search 
-                    li 
-                        a(href="/video/upload") Upload
         
         main
             block contents
