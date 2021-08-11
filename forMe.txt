@@ -388,3 +388,58 @@
                 store : MongoStore.create({mongoUrl : process.env.DB_URL}) 로
                 변경해주면, 완성. 
         8-5 gitignore에서 .env을 읽지 못하게 설정하면 마무리된다.
+
+8/11
+    1. 파일 추가하기.
+        1-1. multer 패키지를 사용한다. > npm i multer
+        1-2. html > form에 옵션추가
+             enctype="multipart/form-data"
+
+    2. Middleware 제작
+        export const 이름 = (req,res,next) => {...}
+        *기존의 미들웨어는 (req,res,next) 가 들어가지만 이것은 특이함
+        
+        export const 이름 = multer({ dest : "uploads/"})
+        를 만들면 자동으로 uploads파일이 생김. 
+        * 저장소 생성 및 경로
+
+    3. router에 Middleware추가
+        3-1. 미들웨어 입력
+            ..post(postEdit)이란 함수가 있으면,
+            미들웨어이름은 예를들어 uploadFiles 
+            ..post(uploadFiles , postEdit)으로 넣는다. 
+        
+        3-2. 속성 설정
+            uploadFiles.??? 으로 파일을 여러개 받을지 낱개로 받을지
+            정한다.
+            uploadFiles.single(...)
+        
+        3-3. 파일 받을위치 설정
+            uploadFiles.single(...)
+            ... 공간에 input의 name, 즉 파일받을 인풋의 name을 적는다.(String) 
+            uploadFiles.single("avata")
+    
+    4. 정상적으로 사용완료 되었으면,  req.file로 파일정보를 확인 가능하다. 
+
+    5. 만약 프로필사진을 저장하지 않았을 경우에 생기는 오류에 대해서는?
+        5-1. 유저가 아바타를 사용하지 않는 경우.
+             file에 데이터가 없으니, 없을 때 기존의 것을 대체시킨다.
+        
+        5-2  업로드 될 함수에서..   
+             _id : {
+                 avataUrl : file ? file.path : avataUrl
+             } 
+            파일이 있으면(파일의 경로가 있으니), 파일경로 교체한다. 
+            없으면, 원래 있던 것으로.
+    
+    6. 유저의 파일패스 경로로 화면에 이미지 추가하는 방법.
+        express가 파일경로 URL을 알 수 있도록 추가해줘야한다. 
+
+        app.use(경로,express.static("파일이름"))
+        
+        app.use("/uploads", express.static("uploads))
+
+    7. 절대로!!!! DB에!!! 파일을!!!! 저장하는것이!!!아니다!!!
+        경로를!!!! 저장하는!!!! 것이다!!!!
+    
+    8. 비디오 저장 및 보이기 

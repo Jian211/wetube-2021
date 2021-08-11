@@ -140,12 +140,18 @@ export const getEdit = (req, res) => {
 }
 export const postEdit = async (req,res) => {
     const { 
-        session : { user : _id },
-        body : { username, email }
+        session : { user : { _id, avataUrl} },
+        body : { username, email },
+        file
     } = req;
     // +코드챌린지  만약 이메일 등 중복이 된다면.. 
     const updateUser = await User.findByIdAndUpdate(
-        _id,{ username,email },{ new : true}
+        _id,{ 
+            username,
+            email,
+            avataUrl : file ? file.path : avataUrl,
+        },
+        { new : true}
     );
     req.session.user  = updateUser;
     console.log("성공적으로 수정되었습니다.")
