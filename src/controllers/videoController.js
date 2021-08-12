@@ -28,9 +28,14 @@ export const getEdit  = async (req, res) => {
 };
 
 export const postEdit = async (req, res) => {
-    const { id } = req.params;
-    const { title,description,hashtags }= req.body;
-
+    const { 
+        params : id,
+        body : { 
+            title,
+            description,
+            hashtags
+        }
+    }=req;
     await Video.findByIdAndUpdate(id,{
         title,
         description,
@@ -43,8 +48,10 @@ export const getUpload = (req, res) => {
     return res.render("upload", { pageTitle : "upload video"});
 }
 export const postUpload = async( req, res ) => {
-    const { title, description, hashtags } = req.body;
-    const { path } = req.file;
+    const { 
+        body : { title, description, hashtags },
+        file : path,
+    }=req;
     try {
         await Video.create({
             title,

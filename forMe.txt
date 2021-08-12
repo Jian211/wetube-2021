@@ -443,3 +443,122 @@
         경로를!!!! 저장하는!!!! 것이다!!!!
     
     8. 비디오 저장 및 보이기 
+
+8/12  9강 Frontend part 시작! 
+    
+    1. webpack이란?
+        웹펙은 섹시 자바스크립트 코드를 올드 자바스크립트코드로 
+        바꿔주는 모듈이다.
+    
+    2. Download
+        다운로드 받기 위해선 webpack 과 webpack-cli이 필요하다. 
+        npm install webpack webpack-cli -D
+        
+        *webpack-cli은 콘솔에서 사용 명령어를 사용할 수 있게 도와주는 프로그램
+    
+
+    3. webpack 설정방법.
+        3-1.  webpack.config.js 파일 생성.
+               - 오래된 자바스크립트 언어만 이해가능.
+
+        3-2.  module.exports = { ... } 코드작성.
+               * entry와 output이 필수로 들어가야함. 
+               - 섹시한 자바스크립트를 읽을 경로와 출력 폴더를 설정해주는 과정진행.
+
+        3-3.  what is entry
+                - entry는 webpack이 읽고싶은 소스코드를 의미한다. 
+                - 그 소스코드의 경로를 입력한다. 
+
+        3-4.  what is output
+                - 섹시한 코드를 올드코드로 변경하여 저장하는 것.
+                - output속에는 filename 그리고  path가 있다.
+                 * filename은 저장되어질 공간
+                 * path는 그 파일의 경로를 설정한다. 
+        
+        3-5.  webpack을 콘솔에 실행시킬 명령어 입력.
+                - package.json > scripts 에서
+                "assest" : "webpack --config webpack.config.js" 작성
+        3-6.  path 설정
+                a. __dirname  이 변수는 파일의 기본 경로를 알려준다. 
+                b. import path를 한다. 하지만 구식으로 써야하니
+                    const path = require("path");
+                c. path.resolve() 함수를 사용하면 경로를 쉽게 설정할 수 있다. 
+                    path.resolve(__dirname,"assets","js")
+                        > 파일경로/assets/js
+                하는 이유는 절대 경로가 필요하기 때문이다. 
+
+        3-7. rule설정.
+                -js,css 등 어떤 형식을 바꿀 것인지 적어야함.
+                module : {
+                    rules : [    // 룰은 어레이 형식.
+                        {
+                            test : /\.js$/,     // 모든 js파일을
+                            use  : {            // 바벨 로더로 사용한다. 
+                                loader : "babel-loader",
+                                options:{
+                                    presets:[["@babel/preset-evn",{targets:"defalut"}]],
+                                }
+                            }
+                        }
+                    ]
+                }
+    
+    4. 서버가 위의 output파일(assets)을 인식 할 수 있도록 연결시키기
+        4-1. server.js에서 uploads 폴더를 인식시켰던 방법으로 진행
+            app.use("...url경로",express.static("폴더이름"))
+        >   app.use("/assets", express.static("assets"))
+
+    5. pug파일이 assets폴더의 js파일 불러오기 
+        html 코드 속에 맨밑에 script(...) 하던데로 하면 불러와짐
+        괄호안의 경로는 webpack에서 만들어주는 output경로를 넣어야함
+        ex) "assets/js/main.js"
+        
+    6. webpack으로 SCSS파일 사용법.
+        목표 두가지
+            scss파일을 가져다가 일반적인 css로 변환
+            일반적인 css를 가지고 프론트엔드에 적용.
+
+        6-1. Frontend > scss 폴더 생성 
+            전체 스타일을 담당할 styles.scss
+            전체의변수를 담당할 _variable.scss 
+        
+        6-2 main.js에 styles.scss import시키기
+        
+        6-3 webpack.config 사용설정
+            a. scss를 css로 변환시키겠다고 설정
+               - npm i sass-loader sass webpack -D
+            
+            b. import "..." 를 사용할 수 있게 설정
+               - npm i --save-dev css-loader
+            
+            c. DOM에 css를 적용시킬 수 있게 설정
+               - npm i --save-dev style-loader
+            
+            d. 위 패키지를 다운받고 난 후 
+                use: [... , ... , ...] 에 넣어야한다. 
+                단, 역순으로 넣어야한다. webpack이 역순으로 읽기 때문
+                use :["style-loader","css-loader","sass-loader"]
+    
+    7. MiniCssExtractPlugin
+        css파일을 별도로 분리해주는 플러그인
+        npm i --save-dev mini-css-extract-plugin
+
+        7-1. webpack에 import시키기 
+        7-2. module.exports안에 plugins추가
+        7-3. style-loader를 바꿔준다
+            MiniCssExtractPlugin.loader로
+            - js파일에서 css파트를 추출한다. 
+        
+        플러그인 변수안에 
+        filename : "css/styles.css"
+        하면 파일이 생성됌 
+
+        이후 pug사이드에서 읽을 수 있도록 import
+        
+        module.exports안에 
+        함수 watch:true를 해두면,
+        변경 사항이 있을때마다 자동적으로 읽어, 즉시 최신화 시켜준다.
+
+        styles.scss에 변경사항이 있다.
+        > watch :true 인 상황이면,
+        변경사항을 css에 전달하여 최신화 시켜줌 
