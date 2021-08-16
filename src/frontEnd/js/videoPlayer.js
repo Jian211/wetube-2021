@@ -14,6 +14,7 @@ let mouseStopTimeId = null;
 const handlePlay = (e) => {
     video.paused ? video.play() : video.pause();
     playBtn.innerText = video.paused ? "Pause" : "Play";
+}
 const handlePlayBtn = () => { playBtn.innerText = "play"; }
 const handlePauseBtn = () => {playBtn.innerText = "pause"; }
 
